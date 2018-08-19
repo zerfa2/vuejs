@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Condicionales</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+</head>
+<body>
+	<br><br>
+	<div class="container" id="app">
+	{{$data}}
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2" align="center">
+				
+				<h4>Has trabajado con Vuejs?</h4>
+				<div class="radio">
+					<label class="radio-inline">
+						<input type="radio" value="2" v-model="vue.exp" v-bind:value="true">Si
+					</label>
+					<label  class="radio-inline">
+						<input type="radio" v-model="vue.exp" value="1" v-bind:value="false">No
+					</label>
+					
+				</div>
+				<div v-show="vue.exp">
+					<div class="form-group">
+						<label>Cuantos años de experiencia tiene con Vue?</label>
+						<input type="number" v-model="vue.years" class="form-control">
+					</div>
+					<div class="form-group" v-if="vue.years <2">
+						<label>Que te motivo aprender Vue.js?</label>
+						<textarea key="description1" v-model="vue.description" class="form-control" rows="4">Que te motivo aprende</textarea>
+					</div>
+					<div class="form-group" v-else-if="vue.years >=2">
+						<label>Cuentanos tu experiencia con Vue.js?</label>
+						<textarea key="description2" v-model="vue.description" class="form-control" rows="4"></textarea>
+					</div>
+					
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+	const app=new Vue({
+		el:"#app",
+		data:{
+			vue:{
+				exp:null,
+				years:0,
+				description:''
+
+			}
+		}
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VueJS 2</title>
+</head>
+<body>
+	<!-- <div v-if="!formSubmitted"> -->
+		
+	<form align="center" id="app">
+		<h2>Ingrese los campos</h2>
+		Nombre: <input type="text" name="" v-model="first_name" pattern="[A-Za-z]+" required="" title="Sin numeros, por favor!"><br><br>
+		Apellidos: <input type="text" name="" v-model="last_name">
+		<br><br>
+		<ol>
+			<li v-for="todo in todos">
+				{{todo.text}}
+			</li>
+		</ol>
+		<br><br>
+		<input type="submit" v-bind:disabled="isFormValid()" value="Continuar">
+		<br><br>
+		<h2 v-html="first_name"></h2>
+		<h2 v-text="last_name"></h2>
+		Bienvenido,{{first_name}} :{{reversedName}} 
+
+
+	</form>
+	<!-- </div> -->
+		
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+	const app = new Vue({
+		el:'#app',
+		data: {
+			first_name :'',
+			last_name:'',
+			formSubmitted:false,
+			todos:[
+			{text:'texto1'},
+			{text:'texto2'},
+			{text:'texto3'},
+			]
+		},
+		methods:{
+			isFormValid: function(){
+				this.first_name != '' && this.last_name!='';
+			}
+		},
+		computed:{
+			reversedName:function(){
+				return this.first_name.split('').reverse().join('');
+			}
+		}
+
+	});
+
+	
+</script>
+</body>
+</html>
