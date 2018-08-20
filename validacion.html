@@ -10,6 +10,7 @@
 	<br><br>
 	<div class="container" id="app">
 	{{$data}}
+
 		<div class="row">
 			<div class="col-sm-8 col-sm-offset-2" align="center">
 				
@@ -28,26 +29,23 @@
 						<label>Cuantos años de experiencia tiene con Vue?</label>
 						<input type="number" v-model="vue.years" class="form-control">
 					</div>
-					<div class="form-group" v-if="vue.years <2">
+					<!-- <div :class="'form-group ' +(descriptionError ? 'has-error' : '')" v-if="vue.years <2"> -->
+					<div v-if="vue.years < 2" :class="{'form-group':true,'has-error':descriptionError!=null}">	
 						<label>Que te motivo aprender Vue.js?</label>
 							<textarea key="description1" v-model="vue.description" class="form-control" rows="4">Que te motivo aprende</textarea>
-						<div class="alert alert-danger" v-if="errors.description !=null">
-							{{errors.description}}
+						<div class="alert alert-danger" v-if="descriptionError !=null">
+							{{descriptionError}}
 						</div>
 
 					</div>
-					<div class="form-group" v-else-if="vue.years >=2">
+					<!-- <div v-else-if="vue.years >=2"  class="form-group" :class="{'has-error':descriptionError!=null}">	 -->
+					<div v-else-if="vue.years >=2"   :class="['form-group',{'has-error':descriptionError!=null}]">	
 						<label>Cuentanos tu experiencia con Vue.js?</label>
 						<textarea key="description2" v-model="vue.description" class="form-control" rows="4"></textarea>
-						<div class="alert alert-danger" v-if="errors.description !=null">
-							{{errors.description}}
+						<div class="alert alert-danger" v-if="descriptionError !=null">
+							{{descriptionError}}
 						</div>
-						<!-- <div v-if="vue.description == ''">
-					        <label style="color:red;">El campo de descripcion es requerido!; Ingresa la descripcion porfavor.</label>
-					     </div>
-					     <div v-else="vue.description != ''">
-					        <label style="color:green;">Gracias por compartir tu experiencia con nosotros.</label>
-					    </div> -->
+						
 					</div>
 					
 				</div>
@@ -68,23 +66,27 @@
 				years:0,
 				description:''
 
-			},
-			errors:{
-				description:null
 			}
 		},
-		watch:{
-			'vue.description':function(){
-				if(this.vue.description.trim() ==='' & this.vue.description.trim().length <=20  ){
-					return this.errors.description = 'Complete el campo descripcion';
-				}else if(this.vue.description.trim().length >=21){
-					return this.errors.description = 'El campo descripcion no debe superar los 20 caracteres';
-				}else{
-					return this.errors.description = null;
+		computed:{
+			descriptionError:function(){
+				let val= this.vue.description.trim();
 
+				if(val ===''){
+					return 'Complete el campo descripcion';
 				}
+				if(val.length <=5){
+					return 'El campo descripcion debe ser mayor a 5 caracteres';
+				}
+
+				if(val.length >20){
+					return 'Por favor escriba una descripcion menor a 20 caracteres';
+				}
+					return null;
+
 			}
 		}
+		
 	});
 </script>
 </body>

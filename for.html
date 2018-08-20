@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Styde cap8</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style type="text/css">
+		.completed{
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+<div class="container" id='app'>
+	<div class="row">
+		<div class="col-sm-8 col-sm-offset-2">
+			<h3>For</h3>
+			<!-- <ul> -->
+				<!-- <li v-for="task of tasks">{{task}}</li> -->
+			<!-- 	<li v-for="(task,index) in tasks">{{index + 1}} :{{task}}</li>
+			</ul> -->
+		<!-- 	<template v-for="(task,index) in tasks">
+				<p>{{index + 1}} :{{task}}</p>
+				<br>
+			</template> -->
+
+			<ul v-for="task in tasks">
+				<!-- <del v-if="!task.pending" @click="decidirPending(task)"><span > {{task.title}}</span></del> -->
+				<!-- <template v-else @click="decidirPending(task)" :class="{completed: !task.pending}">{{task.title}}</template> -->
+				<li class="list-item-group" v-on:click="decidirPending(task)" :class="{completed:!task.pending}">{{task.title}}</li>
+			</ul>
+
+			<h3 v-if="pendingTask.length >0">Tareas pendientes</h3>
+			<ul>
+				<li v-for="task in pendingTask" >{{task.title}}</li>
+			</ul>
+
+			<input type="text" class="form-control" v-model="newTask" v-on:keyup.enter="createTask">
+			<button type="button" class="btn btn-success" v-on:click="createTask">Nuevo</button>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+<script type="text/javascript">
+	const app = new Vue({
+		el:'#app',
+		data:{
+			// tasks:['lista1','lista2','lista3','lista4','lista5','lista6']
+			newTask:'',
+			tasks:[
+				{
+					title:'titulo1',
+					pending:false	
+				},
+				{
+					title:'titulo2',
+					pending:false	
+				},
+				{
+					title:'titulo3',
+					pending:false	
+				},
+				{
+					title:'tituloPendiente',
+					pending:true	
+				}
+			]
+		},
+		computed:{
+			pendingTask:function(){
+				return this.tasks.filter(function(item){
+					return item.pending;
+				})
+			}
+		},
+		methods:{
+			createTask:function(){
+				this.tasks.push({
+					title: this.newTask,
+					pending:true
+				});
+				this.newTask='';
+			},
+			decidirPending:function(task){
+				return task.pending = !task.pending;
+			}
+		}
+	});
+</script>
+</body>
+</html>
